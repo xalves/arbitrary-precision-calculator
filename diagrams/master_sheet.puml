@@ -1,0 +1,74 @@
+@startuml
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/twitter_square.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title System Context Diagram for
+
+LAYOUT_WITH_LEGEND()
+'LAYOUT_AS_SKETCH()'
+
+/'multiple lines comment'/
+
+SetPropertyHeader("Property","Value", "Description")
+AddProperty("Name", "Victoria", "User name")
+AddProperty("Id", "1", "User ID")
+Container(containerAlias, "Label", "Technology", "Optional Description")
+Person(admin, "User")
+
+System(backend, "App backend")
+System(ui, "App UI")
+ContainerDb(twitter, "Twitter", "DB")
+
+backend - ui
+backend -- twitter
+
+Rel(twitter, ui, "test", Tag)
+
+
+System(ui1, "App1")
+System(backend2, "App2")
+
+Rel(ui1, backend2, "saves data", using http request)
+
+System(ui3, "App3")
+System(backend3, "App4")
+Rel_D(ui3, backend3, "saves data", using http request)
+
+System(ui4, "App5")
+System(backend4, "App5")
+BiRel(ui4, backend4, "saves data", using http request)
+
+
+
+System_Boundary(app, "App5") {
+    System(backend5, "App Back End5")
+    System(ui5, "App UI")
+}
+
+Container_Ext(app2, "App", "Nested Entities") {
+    System(backend6, "App backend")
+    System(ui6, "App UI")
+}
+
+ContainerDb(twitter, "Twitter", "DB", $sprite="twitter_square")
+
+Person(ruben, ruben)
+
+System(escola, escola)
+
+Rel(ruben, escola, "vai à escola", usando as patas)
+
+/'
+https://github.com/plantuml-stdlib/C4-PlantUML#layout-options
+
+You can force the direction of a relationship by using:
+
+Rel_U, Rel_Up
+Rel_D, Rel_Down
+Rel_L, Rel_Left
+Rel_R, Rel_Right
+'/
+@enduml
+

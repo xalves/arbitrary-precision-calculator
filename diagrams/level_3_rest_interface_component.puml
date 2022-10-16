@@ -1,0 +1,31 @@
+@startuml
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/twitter_square.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Component Diagram for the REST module
+
+LAYOUT_WITH_LEGEND()
+
+
+Person(user, "Client", "A client of the backend solution with calculations to perform.")
+
+
+System_Boundary(restInterface, "Rest Interface") {
+    Container(calculatorController, "Calculator Controller", "Spring Web Rest Controller", "Allows users to perform calculations")
+    Container(requestProcessor, "Request Processor", "Java Spring AMQP", "Handles the user request and prepares it to be sent to the queue")
+}
+
+System_Ext(rabbitBroker, "RabbitMQ Broker", "External system provided by DockerHub Image")
+
+BiRel(user, calculatorController, "Perform calculations", "Http requests")
+Rel(calculatorController, requestProcessor, "Uses")
+BiRel(rabbitBroker, requestProcessor, "Exchanges Operation Messages", "Spring AMQP")
+
+
+@enduml
+
+Questions to answer:
+
+

@@ -1,0 +1,31 @@
+@startuml
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/twitter_square.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Container Diagram for Calculator
+
+LAYOUT_WITH_LEGEND()
+
+
+Person(user, "Client", "A client of the backend solution with calculations to perform.")
+
+
+System_Boundary(calculatorSystem, "Calculator") {
+    Container(rest, "Rest interface", "Java and Spring Web", "Handles http requests and publishes messages to a rabbimq queue.")
+    Container(calculator, "Calculator", "Java and Spring", "Consumes messages from the queue with operations to perform and replies with the result.")
+    System_Ext(rabbitBroker, "RabbitMQ Broker", "External system provided by DockerHub Image")
+}
+
+BiRel(user, rest, "Perform calculations", "Http requests")
+Rel(rest, rabbitBroker, "Sends operation messages", "Spring AMQP")
+Rel(rabbitBroker, calculator, "Sends operation messages", "Spring AMQP")
+Rel(calculator, rabbitBroker, "Sends operation messages replies with result", "Spring AMQP")
+Rel(rabbitBroker, rest, "Sends operation messages replies with result", "Spring AMQP")
+
+@enduml
+
+Questions to answer:
+
+

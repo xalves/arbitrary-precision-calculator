@@ -1,0 +1,21 @@
+@startuml
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/twitter_square.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title System Context Diagram for Calculator
+
+LAYOUT_WITH_LEGEND()
+
+
+Person(user, "Client", "A client of the backend solution with calculations to perform.")
+System(calculator, "Calculator", "Allows clients to perform calculations and returns results.")
+
+BiRel(user, calculator, "Perform calculations", Using Http requests)
+
+@enduml
+
+Questions to answer:
+ - who is using it?
+

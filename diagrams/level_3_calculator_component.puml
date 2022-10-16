@@ -1,0 +1,30 @@
+@startuml
+!define FONTAWESOME https://raw.githubusercontent.com/tupadr3/plantuml-icon-font-sprites/master/font-awesome-5
+!include FONTAWESOME/twitter_square.puml
+
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Container.puml
+
+title Component Diagram for the Calculator module
+
+LAYOUT_WITH_LEGEND()
+
+
+System_Ext(rabbitBroker, "RabbitMQ Broker", "External system provided by DockerHub Image")
+
+System_Boundary(restInterface, "Calculator") {
+    Container(messageServerService, "Message Server Service", "Spring AMQP", "Listens for incoming messages")
+    Container(messageHandler, "Message Handler", "Spring", "Processes the different operations")
+    Container(calculator, "Calculator", "Spring", "Performs calculations")
+}
+
+BiRel(rabbitBroker, messageServerService, "Exchanges messages", "RabbitMQ messages")
+Rel(messageServerService, messageHandler, "Uses")
+Rel(messageHandler, calculator, "Uses")
+
+
+
+@enduml
+
+Questions to answer:
+
+
